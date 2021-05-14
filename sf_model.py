@@ -12,6 +12,7 @@ from keras.callbacks import EarlyStopping
 from keras import regularizers
 from keras import initializers
 import pickle
+from scipy import stats
   
 class Neural_Tensor_layer(Layer):
   def __init__(self,output_dim,input_dim=None, **kwargs):
@@ -109,10 +110,9 @@ def SKIPFLOW(lstm_dim=50, lr=1e-4, lr_decay=1e-6, k=4, eta=3, delta=50, activati
     dense = Dense(64, activation=activation,kernel_initializer=initializers.glorot_normal(seed=seed))(dense)
     out = Dense(1, activation="sigmoid")(dense)
     model = Model(inputs=[e], outputs=[out])
-    print("input", [e])
-    print("outputs", out)
     adam = Adam(lr=lr, decay=lr_decay)
     model.compile(loss="mean_squared_error", optimizer=adam, metrics=["MSE"])
+    print('MODEL READY')
     return model
 
 def load_model(vocab_size, embedding_matrix):
@@ -122,5 +122,6 @@ def load_model(vocab_size, embedding_matrix):
   pklfile= "/content/drive/MyDrive/sf_models/7_weights.pkl"
   fpkl= open(pklfile, 'rb')
   sf.set_weights(pickle.load(fpkl))
+  print('Weights Loaded')
   fpkl.close()
   return sf
