@@ -31,11 +31,13 @@ def create_embeddings(data_file = "/content/FYP_DEMO/training_set_rel3.tsv",glov
 #       if(temp[1]==essay_type):
 #           originals.append(float(temp[6]))
 #   fp.close()
+  range_min = 0
+  range_max = 30
   fp=open(data_file,'r', encoding="ascii", errors="ignore")
   fp.readline()
   for line in fp:
       temp=line.split("\t")
-      if(temp[1]==essay_type): 
+      if(temp[1]=='7'): 
           texts.append(temp[2])
           labels.append((float(temp[6])-range_min)/(range_max-range_min))
           line=temp[2].strip()
@@ -64,9 +66,10 @@ def create_embeddings(data_file = "/content/FYP_DEMO/training_set_rel3.tsv",glov
       continue
     if word in glove_emb:
         embedding_matrix[i]=glove_emb[word]
-  return data, labels, tokenizer, glove_emb
+    
+  return data, labels, tokenizer, embedding_matrix
 
-def get_word_index(tokenizer):
+def get_vocab_size(tokenizer):
   return len(tokenizer.word_index)
 
 def create_train_val_set(data, labels):
