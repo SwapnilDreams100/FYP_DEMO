@@ -80,7 +80,7 @@ class Temporal_Mean_Pooling(Layer): # conversion from (samples,timesteps,feature
   def compute_output_shape(self,input_shape):
     return (input_shape[0],input_shape[2])
 
-def SKIPFLOW(lstm_dim=50, lr=1e-4, lr_decay=1e-6, k=4, eta=3, delta=50, activation="relu", maxlen=MAX_SEQUENCE_LENGTH, seed=None, embedding_matrix = None):
+def SKIPFLOW(lstm_dim=50, lr=1e-4, lr_decay=1e-6, k=4, eta=3, delta=50, activation="relu", maxlen=500, seed=None, embedding_matrix = None, vocab_size = None):
     EMBEDDING_DIM=300
     e = Input(name='essay',shape=(maxlen,))
     embedding_layer=Embedding(vocab_size,EMBEDDING_DIM,weights=[embedding_matrix],
@@ -115,10 +115,10 @@ def SKIPFLOW(lstm_dim=50, lr=1e-4, lr_decay=1e-6, k=4, eta=3, delta=50, activati
     model.compile(loss="mean_squared_error", optimizer=adam, metrics=["MSE"])
     return model
 
-def load_model(embedding_matrix):
+def load_model(vocab_size, embedding_matrix):
   earlystopping = EarlyStopping(monitor="val_mean_squared_error", patience=5)
   MAX_SEQUENCE_LENGTH=500
-  sf = SKIPFLOW(lstm_dim=500, lr=2e-4, lr_decay=2e-6, k=4, eta=13, delta=50, activation="relu", maxlen = MAX_SEQUENCE_LENGTH, seed=None, embedding_matrix = embedding_matrix)
+  sf = SKIPFLOW(lstm_dim=500, lr=2e-4, lr_decay=2e-6, k=4, eta=13, delta=50, activation="relu", maxlen = MAX_SEQUENCE_LENGTH, seed=None, embedding_matrix = embedding_matrix, vocab_size = vocab_size)
   pklfile= "/content/drive/MyDrive/sf_models/7_weights.pkl"
   fpkl= open(pklfile, 'rb')
   sf.set_weights(pickle.load(fpkl))
