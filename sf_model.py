@@ -115,11 +115,10 @@ def SKIPFLOW(lstm_dim=50, lr=1e-4, lr_decay=1e-6, k=4, eta=3, delta=50, activati
     print('MODEL READY')
     return model
 
-def load_model(vocab_size, embedding_matrix):
+def load_model(vocab_size, embedding_matrix, pklfile= "/content/drive/MyDrive/sf_models/7_weights.pkl"):
   earlystopping = EarlyStopping(monitor="val_mean_squared_error", patience=5)
   MAX_SEQUENCE_LENGTH=500
   sf = SKIPFLOW(lstm_dim=500, lr=2e-4, lr_decay=2e-6, k=4, eta=13, delta=50, activation="relu", maxlen = MAX_SEQUENCE_LENGTH, seed=None, embedding_matrix = embedding_matrix, vocab_size = vocab_size)
-  pklfile= "/content/drive/MyDrive/sf_models/7_weights.pkl"
   fpkl= open(pklfile, 'rb')
   sf.set_weights(pickle.load(fpkl))
   print('Weights Loaded')
