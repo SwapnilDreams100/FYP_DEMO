@@ -7,7 +7,7 @@ from keras.preprocessing.sequence import pad_sequences
 
 def create_embeddings(data_file = "/content/FYP_DEMO/training_set_rel3.tsv",glove_name= "glove.6B.300d.txt"):
   MAX_NB_WORDS=4000
-  EMBEDDING_SIZE= 300
+  EMBEDDING_DIM= 300
   MAX_SEQUENCE_LENGTH = 500
   
   texts=[]
